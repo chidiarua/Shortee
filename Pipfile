@@ -8,6 +8,8 @@ django = "*"
 pyshorteners = "*"
 whitenoise = "*"
 django-environ = "*"
+gunicorn = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 black = "*"

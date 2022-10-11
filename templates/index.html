@@ -1,0 +1,43 @@
+{% load static %}
+<html lang='en'>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+        <link rel="stylesheet" type="text/css" href="{% static '/css/index.css' %}">
+        <title>Shortee</title>
+    </head>
+
+<body>
+    <main>
+      <div id="header-div" class="">
+         <h1 class="">SHORTEE</h1>
+         <i><p>a url shortening service</p></i>
+       </div>
+       <!-- link input and shorten button -->
+       <div id="content-div">
+         <div>
+          <form id="input-div" class="text-field content-row" method="POST">
+            {% csrf_token %}
+           <input type="text" name="url" class="text-field content-row" placeholder="Enter URL here . . ." id="input-field" required/>
+           <button id="shorten" type="submit" class="content-row button">Shorten</button>
+           <button type="button" id="clear-btn" class="content-row button" onclick="ClearField()">Clear</button>
+          </form>
+         </div>
+         <!-- Output and copy -->
+         {% if short_url %}
+         <div id="output-div">
+           <div class="content-row" id="new-url-label">{{short_url}}</div>
+           <div id="new-url" class="content-row"></div>
+           <button type="button" id="copy-btn" data-clipboard-target="#new-url" class="content-row button" onclick="copyToClip(document.getElementById('new-url-label').innerHTML)">Copy</button>
+         </div>
+         {% endif %}
+       </div>
+
+       <div class="footer">
+        <p>follow me on <a href="https://twitter.com/ChidiArua" target="_blank">Twitter</a></p>
+      </div>
+       </main>
+       <script src="{% static 'js/copy.js' %}"></script>
+       <script src="{% static 'js/clear.js' %}"></script>
+       </body>
+<html>

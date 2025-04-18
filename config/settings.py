@@ -1,6 +1,5 @@
-
 from pathlib import Path
-
+import os
 import environ
 
 # Initialise environment variables
@@ -15,12 +14,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = env("SECRET_KEY", default="your-secret-key-here")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[".vercel.app", "localhost", "127.0.0.1"])
 
 
 # Application definition
@@ -73,8 +72,10 @@ WSGI_APPLICATION = "config.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    "default": env.db(),
-    "extra": env.db_url("DATABASE_URL"),
+    "default": env.db(
+        "DATABASE_URL",
+        default="sqlite:///" + str(BASE_DIR / "db.sqlite3")
+    )
 }
 
 
@@ -113,8 +114,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = (str(BASE_DIR.joinpath("static")),)
-STATIC_ROOT = str(BASE_DIR.joinpath("staticfiles"))
+STATICFILES_DIRS = [str(BASE_DIR / "static")]
+STATIC_ROOT = str(BASE_DIR / "staticfiles")
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
@@ -126,6 +127,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CSRF_COOKIE_SECURE =  True
-SESSION_COOKIE_SECURE =  True
-SECURE_SSL_REDIRECT =  True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

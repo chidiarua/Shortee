@@ -1,7 +1,10 @@
 #!/bin/bash
 
 # Install Python dependencies
-pip3 install -r requirements.txt
+pip install -r requirements.txt
+
+# Set Python path
+export PYTHONPATH=$PYTHONPATH:$(pwd)
 
 # Collect static files
-python3 manage.py collectstatic --noinput 
+python manage.py collectstatic --noinput 

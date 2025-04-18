@@ -9,11 +9,8 @@
             }
         },
         {
-            "src": "shortee/wsgi.py",
-            "use": "@vercel/python",
-            "config": {
-                "runtime": "python 3.10"
-            }
+            "src": "config/wsgi.py",
+            "use": "@vercel/python"
         }
     ],
     "routes": [
@@ -23,7 +20,7 @@
         },
         {
             "src": "/(.*)",
-            "dest": "shortee/wsgi.py"
+            "dest": "config/wsgi.py"
         }
     ]
 } 
